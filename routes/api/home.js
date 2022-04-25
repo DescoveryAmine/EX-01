@@ -96,9 +96,16 @@ router.post('/login', (req, res) => {
             where: {
               userId: req.body.userid
             }
-          })
-        res.status(200).send({
-          id: user.userId
+          }).then(inscription => {
+            if (inscription) {
+              res.status(200).send({
+                userId : inscription.userid, 
+                name: inscription.name,
+                lastname: inscription.lastname,
+                email: inscription.email,
+              });
+              return;
+            } 
         });}
         else {
           errors.password = 'Password incorrect oops';

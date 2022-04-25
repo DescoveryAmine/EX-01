@@ -1,4 +1,4 @@
 module.exports = {
-  mongoURI: 'mongodb://localhost:27017/devdb',
+  PostgresURI: 'postgres://postgres:am05ne@localhost:5050/mydb',
   secretOrKey: 'secret'
 };

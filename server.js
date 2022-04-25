@@ -1,10 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize')
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
+const home = require('./routes/api/home');
+const auth = require('./routes/api/auth');
+
 
 
 const app = express();
@@ -13,15 +14,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// B-DB ConfIg
-const db = require('./config/keys').mongoURI;
-
 // Connect to MongoDB
-mongoose
+/*mongoose
   .connect(db)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
-
+*/
 // Passport middleware
 app.use(passport.initialize());
 
@@ -29,8 +27,8 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // UsE Routes
-app.use('/api/users', users);
-app.use('/api/profile', profile);
+app.use('/api/home', home);
+app.use('/api/auth', auth);
 
 const port = process.env.PORT || 5000;
 

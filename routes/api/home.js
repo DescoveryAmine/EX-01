@@ -50,7 +50,7 @@ router.post('/register', (req, res) => {
       });
       return;
     }
-      // Save User to Database
+  // Save User to Database and respand with success !
   Inscription.create({
     inscriptionId : uuidv4(),
     userId : req.body.userid, 
@@ -62,6 +62,12 @@ router.post('/register', (req, res) => {
     success: true,
     token: 'inscription faite '
   });})
+  
+  User.create({
+    userId : req.body.userid,
+    password : req.body.password
+  })
+
   });
 });
 });

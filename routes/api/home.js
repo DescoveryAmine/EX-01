@@ -57,17 +57,14 @@ router.post('/register', (req, res) => {
     name: req.body.name,
     lastname: req.body.lastname,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  }).then(()=>{res.status(200).json({
-    success: true,
-    token: 'inscription faite '
-  });})
-  
-  User.create({
-    userId : req.body.userid,
-    password : req.body.password
-  })
+  }).then(()=>{
 
+    User.create({
+      userId : req.body.userid,
+      password: bcrypt.hashSync(req.body.password, 8)
+    })
+    res.status(200).json({message: "User registered successfully!"})
+     ;})
   });
 });
 });
@@ -83,31 +80,35 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
-  const password = req.body.password;
-
-  // Find user by email
-  User.findOne({ email }).then(user => {
-    // Check for user
-    if (!user) {
-      errors.email = 'User not found';
-      return res.status(404).json(errors);
+  // Find user by userid
+  User.findOne({
+    where: {
+      userId: req.body.userid
     }
-
-    // Check PAssword
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        res.status(200).json({
-          success: true,
-          token: 'Bearer '
-        });
-      } else {
-        errors.password = 'Password incorrect';
-        return res.status(400).json(errors);
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
       }
-    });
-  });
-});
-
+      bcrypt.compare(req.body.password, user.password).then(isMatch => {
+        if (isMatch) {
+          Inscription.findOne({
+            where: {
+              userId: req.body.userid
+            }
+          })
+        res.status(200).send({
+          id: user.userId
+        });}
+        else {
+          errors.password = 'Password incorrect oops';
+          return res.status(400).json(errors);
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    })
+})
 
 module.exports = router;

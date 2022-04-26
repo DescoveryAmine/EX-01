@@ -1,4 +1,8 @@
 const express = require('express');
+<<<<<<< Updated upstream
+=======
+const cors = require("cors");
+>>>>>>> Stashed changes
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
@@ -9,9 +13,19 @@ const auth = require('./routes/api/auth');
 
 const app = express();
 
-// A-Body parser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
 app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+
 
 // Connect to MongoDB
 /*mongoose
@@ -25,9 +39,18 @@ app.use(passport.initialize());
 // Passport CoNfig
 require('./config/passport')(passport);
 
+// simple route
+app.get("/api/home/all", (req, res) => {
+  res.json({ message: "Hiring Web page Exercise" });
+});
+
+// routes
+require('./routes/api/home')(app);
+require('./routes/api/auth')(app);
+
 // UsE Routes
-app.use('/api/home', home);
-app.use('/api/auth', auth);
+//app.use('/api/home', home);
+//app.use('/api/auth', auth);
 
 const port = process.env.PORT || 5000;
 

@@ -1,6 +1,7 @@
 const db = require("../../models");
 const express = require('express');
 const router = express.Router();
+const app = express();
 //const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
@@ -9,15 +10,33 @@ const { v4: uuidv4 } = require('uuid');
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
-// LoAd User Model
+// LoAd User and Inscription Model
 const User = db.User;
 const Inscription = db.Inscription;
 
+module.exports = function(app) {
 
+app.use(function(req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
+
+// @route   GET api/users/test
+// @desc    Tests users route
+// @access  Public
+
+/*router.get('/all', (req, res) => res.json({ msg: 'all  Works' }));
+router.get('/user', (req, res) => res.json({ msg: 'User Works' }));
+router.get('/mod', (req, res) => res.json({ msg: 'mod Works' }));
+router.get('/admin', (req, res) => res.json({ msg: 'admin Works' }));
+*/
 // @route   GET api/home/register
 // @desc    Register user
 // @access  PublIc
-router.post('/register', (req, res) => {
+app.post('/register', (req, res) => {
   
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -72,7 +91,7 @@ router.post('/register', (req, res) => {
 // @route   gEt api/users/login
 // @desc    Login User / REturning JWT Token
 // @access  Public
-router.post('/login', (req, res) => {
+app.post('/login', (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check Validation
@@ -117,5 +136,4 @@ router.post('/login', (req, res) => {
       res.status(500).send({ message: err.message });
     })
 })
-
-module.exports = router;
+}

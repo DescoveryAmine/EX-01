@@ -44,9 +44,6 @@ app.get("/api/home/all", (req, res) => {
 require('./routes/api/home')(app);
 require('./routes/api/auth')(app);
 
-// UsE Routes
-//app.use('/api/home', home);
-//app.use('/api/auth', auth);
 
 const port = process.env.PORT || 5000;
 

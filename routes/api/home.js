@@ -96,7 +96,7 @@ app.post('/api/home/login', (req, res) => {
 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(408).json(errors);
   }
 
   // Find user by userid
@@ -110,7 +110,7 @@ app.post('/api/home/login', (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
       bcrypt.compare(req.body.password, user.password).then(isMatch => {
-        if (isMatch) {
+        if (!isMatch) {
           Inscription.findOne({
             where: {
               userId: req.body.userid
@@ -128,7 +128,7 @@ app.post('/api/home/login', (req, res) => {
         });}
         else {
           errors.password = 'Password incorrect oops';
-          return res.status(400).json(errors);
+          return res.status(407).json(errors);
         }
       });
     })

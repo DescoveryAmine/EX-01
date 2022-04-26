@@ -91,7 +91,7 @@ app.post('/register', (req, res) => {
 // @route   gEt api/users/login
 // @desc    Login User / REturning JWT Token
 // @access  Public
-app.post('/login', (req, res) => {
+app.post('/api/home/login', (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   // Check Validation

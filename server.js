@@ -1,8 +1,4 @@
 const express = require('express');
-<<<<<<< Updated upstream
-=======
-const cors = require("cors");
->>>>>>> Stashed changes
 const bodyParser = require('body-parser');
 const passport = require('passport');
 

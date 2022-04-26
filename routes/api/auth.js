@@ -19,7 +19,13 @@ const Inscription = db.Inscription;
 // @route   GET api/profile/test
 // @desc    Tests profile route
 // @access  Public
+<<<<<<< Updated upstream
 router.get('/getauth', (req, res) => {
+=======
+module.exports = function(app) {
+
+app.get('/validate', (req, res) => {
+>>>>>>> Stashed changes
         // user Matched
         const payload = { id: User.id, name: User.name }; // Create JWT Payload
 
@@ -92,4 +98,4 @@ router.post('/validate', (req, res) => {
   }
 );*/
 
-module.exports = router;
+}

@@ -118,10 +118,13 @@ app.post('/api/home/login', (req, res) => {
           }).then(inscription => {
             if (inscription) {
               res.status(200).send({
-                userId : inscription.userid, 
+                userId : inscription.userId, 
                 name: inscription.name,
                 lastname: inscription.lastname,
                 email: inscription.email,
+                validated: inscription.validated,
+                bearer_token: inscription.bearer_token,
+                validation_date: inscription.validation_date,
               });
               return;
             } 

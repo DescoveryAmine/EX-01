@@ -37,7 +37,7 @@ require('./config/passport')(passport);
 
 // simple route
 app.get("/api/home/all", (req, res) => {
-  res.json({ message: "Hiring Web page Exercise" });
+  res.json({ message: "Hiring Web App Exercise" });
 });
 
 // routes

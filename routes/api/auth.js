@@ -21,7 +21,13 @@ const Inscription = db.Inscription;
 // @access  Public
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 router.get('/getauth', (req, res) => {
+=======
+module.exports = function(app) {
+
+app.get('/validate', (req, res) => {
+>>>>>>> Stashed changes
 =======
 module.exports = function(app) {
 

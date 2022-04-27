@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const app = express();
 const db = require("../../models");
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
@@ -22,7 +22,15 @@ const Inscription = db.Inscription;
 
 module.exports = function(app) {
 
-app.get('/getauth', (req, res) => {
+  app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
+
+app.get('/api/auth/getauth', (req, res) => {
         // user Matched
         const payload = { id: User.id, name: User.name }; // Create JWT Payload
 
@@ -41,7 +49,7 @@ app.get('/getauth', (req, res) => {
 
 });
 
-app.post('/validate', (req, res) => {
+app.post('/api/auth/validate', (req, res) => {
 
   const { errors, isValid } = validateLoginInput(req.body);
 

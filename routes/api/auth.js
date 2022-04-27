@@ -9,7 +9,7 @@ const passport = require('passport');
 // LoAd Input Validation
 
 const validateSubmitInscription = require('../../validation/inscription');
-const validateLoginInput = require('../../validation/login');
+
 
 // LoAd User and Inscription Model
 const User = db.User;
@@ -51,11 +51,11 @@ app.get('/api/auth/getauth', (req, res) => {
 
 app.post('/api/auth/validate', (req, res) => {
 
-  const { errors, isValid } = validateLoginInput(req.body);
-
+  const { errors, isValid } = validateSubmitInscription(req.body);
+ 
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(410).json(errors);
   }
   Inscription.findOne({
     where: {

@@ -30,22 +30,46 @@ module.exports = function(app) {
     next();
   });
 
-app.get('/api/auth/getauth', (req, res) => {
+app.post('/api/auth/getauth', (req, res) => {
         // user Matched
-        const payload = { id: User.id, name: User.name }; // Create JWT Payload
+        const { errors, isValid } = validateSubmitInscription(req.body);
+        // create payload
+        const payload = { id: User.id, name: User.name }; 
 
-        // Sign Token requIred
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          { expiresIn: 60 },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token
+        // Check Validation
+        if (!isValid) {
+          return res.status(410).json(errors);
+        }
+        Inscription.findOne({
+          where: {
+            userId: req.body.userid
+          }
+        }).then(inscription => {
+          let isValidated = inscription.validated
+          if (isValidated) {
+            // Sign Token requIred
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              { expiresIn: 60 },
+              (err, token) => {
+                inscription
+                .update({ bearer_token: token},
+                  { where: { userId: req.body.userid} })
+                .then(res.status(200).send({
+                  message: "success! Authorization is updated"
+                }))
+                .catch(err =>
+                    console.log(err))
+              }
+            );
+          }
+          else {
+            res.status(200).send({
+              message: "OOPs! Authorization can't be done before validation!"
             });
           }
-        );
+        });
 
 });
 
@@ -66,7 +90,7 @@ app.post('/api/auth/validate', (req, res) => {
     if (!isInscription) {
 
       inscription.update(
-        { validated: true},
+        { validated: true , validation_date : Date.now()},
         { where: { userId: req.body.userid} }
       )
         .then(result =>

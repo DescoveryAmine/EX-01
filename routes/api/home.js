@@ -112,7 +112,7 @@ app.post('/api/home/login', (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
       bcrypt.compare(req.body.password, user.password).then(isMatch => {
-        if (!isMatch) {
+        if (isMatch) {
           Inscription.findOne({
             where: {
               userId: req.body.userid

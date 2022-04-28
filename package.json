@@ -1,12 +1,12 @@
 {
-  "name": "devconnector",
+  "name": "WAbackend",
   "version": "1.0.0",
   "description": "Social network for developers",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "Brad Traversy",
+  "author": "WM",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

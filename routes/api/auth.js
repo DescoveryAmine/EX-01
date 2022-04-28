@@ -3,7 +3,6 @@ const app = express();
 const db = require("../../models");
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
-const passport = require('passport');
 
 
 // LoAd Input Validation
@@ -111,20 +110,5 @@ app.post('/api/auth/validate', (req, res) => {
     }
   });
 });
-
-// @route   GET api/users/curreNt
-// @desc    Return current user
-// @access  PrivatE
-/*router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email
-    });
-  }
-);*/
 
 }

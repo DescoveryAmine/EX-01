@@ -1,7 +1,5 @@
 const db = require("../../models");
 const express = require('express');
-const router = express.Router();
-const app = express();
 //const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
@@ -24,18 +22,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-// @route   GET api/users/test
-// @desc    Tests users route
-// @access  Public
-
-/*router.get('/all', (req, res) => res.json({ msg: 'all  Works' }));
-router.get('/user', (req, res) => res.json({ msg: 'User Works' }));
-router.get('/mod', (req, res) => res.json({ msg: 'mod Works' }));
-router.get('/admin', (req, res) => res.json({ msg: 'admin Works' }));
-*/
-// @route   GET api/home/register
-// @desc    Register user
-// @access  PublIc
 app.post('/api/home/register', (req, res) => {
   
   const { errors, isValid } = validateRegisterInput(req.body);
